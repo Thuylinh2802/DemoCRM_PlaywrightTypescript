@@ -17,3 +17,35 @@ test("Login fail with empty email", async ({page}) => {
     await loginPage.verifyLoginFail()
 })
 
+// test.describe("Login Test", () => {
+
+//     loginData.forEach(({name, email, password, expected}) => {
+
+//         test(name, async ({page}) => {
+
+//             const loginPage = new LoginPage(page)
+
+            
+
+//             await loginPage.goto("/admin/authentication")
+
+//             await loginPage.login(email, password)
+
+
+
+//             if(expected === "success") {
+
+//                 await loginPage.verifyLoginSuccess()
+
+//             } else {
+
+//                 await loginPage.verifyLoginFail()
+
+//             }
+
+//         })
+
+//     })
+
+// })
+
