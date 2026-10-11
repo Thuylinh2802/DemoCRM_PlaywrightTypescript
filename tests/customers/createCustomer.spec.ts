@@ -25,7 +25,7 @@ test.describe('Test create customer', () => {
         await customerPage.verifyCreateCustomerSuccess("Customer added successfully.")
 
         await customerPage.openCustomerPage()
-        await customerPage.searchCustomer(customerInfor.company)
+        await customerPage.searchCustomer(customerInfor)
         await customerPage.verifyCustomerInTable(customerInfor)
     })
 

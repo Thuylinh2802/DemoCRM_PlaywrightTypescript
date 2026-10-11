@@ -16,12 +16,15 @@ export class CustomerPage extends BasePage {
     readonly zipInput: Locator;
     readonly countrySelect: Locator;
     readonly saveButton: Locator;
+    readonly deleteButton: Locator
 
     constructor (page: Page) {
         super(page)
 
         this.newCustomerButton = this.page.getByRole('link', { name: 'New Customer' });
         this.searchInput = this.page.locator("//div[@id='clients_filter']//input[@placeholder='Search...']")
+        this.deleteButton = this.page.locator("//table[@id='clients']//a[@class='text-danger _delete']")
+
 
         this.companyInput = this.page.getByRole('textbox', {name: '* Company'})
         this.vatInput = this.page.getByRole('textbox', { name: 'VAT Number' });
@@ -68,8 +71,8 @@ export class CustomerPage extends BasePage {
         expect(alert).toBe(successMsg)
     }
 
-    async searchCustomer (company: string) {
-        await this.fill(this.searchInput, company)
+    async searchCustomer (customerData: CustomerData) {
+        await this.fill(this.searchInput, customerData.company)
     }
 
     async verifyCustomerInTable(customerData: CustomerData) {
@@ -108,7 +111,6 @@ export class CustomerPage extends BasePage {
 
     async deleteCustomerFail(customerData: CustomerData) {
         const customerRow = this.page.locator("#clients").filter({hasText: customerData.company})
-        const deleteButton = this.page.locator("//table[@id='clients']//a[@class='text-danger _delete']")
 
         this.page.once('dialog', async (dialog) => {
             // Verify loại popup
@@ -124,8 +126,18 @@ export class CustomerPage extends BasePage {
         });
 
         await customerRow.hover()
-        await expect(deleteButton).toBeVisible()
-        await this.click(deleteButton)
-        
+        await expect(this.deleteButton).toBeVisible()
+        await this.click(this.deleteButton)        
+    }
+
+    async editCustomer(newInfo: CustomerData) {
+        this.fillCustomerForm(newInfo)
+        await this.click(this.saveButton)
+    }
+
+    async verifyEditCustomerSuccess(newInfo: CustomerData, successMsg: string) {
+        const alert = await this.page.locator("//span[@class='alert-title']").textContent()
+        await expect(alert).toBe(successMsg)
+        await expect(this.page.locator('h4').filter({ hasText: newInfo.company })).toBeVisible()
     }
 }
