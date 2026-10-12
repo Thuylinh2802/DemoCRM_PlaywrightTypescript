@@ -35,9 +35,26 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // Bước A: chạy auth.setup.ts -> login 1 lần duy nhất, sinh ra auth.json
+    {
+        name: 'setup',
+        testMatch: 'auth.setup.ts',
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      testIgnore: 'login.spec.ts',           // test login thuộc project riêng bên dưới
+      use: { 
+        ...devices['Desktop Chrome'],
+          storageState: 'auth.json',        // mọi test của project này nạp sẵn session },
+      },
+      dependencies: ['setup'],             // bắt buộc "setup" phải chạy xong TRƯỚC
+    },
+
+    {
+        name: 'chromium-login',
+        testMatch: 'login.spec.ts',
+        use: { ...devices['Desktop Chrome'] },
     },
 
     // {

@@ -5,17 +5,12 @@ import { CustomerPage } from "../../pages/customerPage"
 import { buildCustomerData } from "../../data/customer/customer.data"
 
 test.describe(("Test delete customer"), () => {
-    let loginPage: LoginPage
-    let basePage: BasePage
-    let customerPage: CustomerPage
+    let customerPage: CustomerPage;
 
-    test.beforeEach(async ({page}) => {
-        loginPage = new LoginPage(page)
-        basePage = new BasePage(page)
+    test.beforeEach(async({page}) => {
         customerPage = new CustomerPage(page)
-        await loginPage.goto("https://crm.anhtester.com/admin/authentication")
-        await loginPage.login("admin@example.com","123456")
-        await basePage.openCustomerPage()
+        await page.goto('https://crm.anhtester.com/admin/')
+        await customerPage.openCustomerPage()
     })
 
     test('Test delete customer success', async () => {

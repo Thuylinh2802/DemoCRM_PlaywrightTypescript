@@ -5,18 +5,12 @@ import { buildCustomerData } from '../../data/customer/customer.data';
 import { LoginPage } from '../../pages/loginPage';
 
 test.describe('Test create customer', () => {
-    let loginPage: LoginPage;
-    let basePage: BasePage;
     let customerPage: CustomerPage;
 
     test.beforeEach(async({page}) => {
-        loginPage = new LoginPage(page)
-        basePage = new BasePage(page)
         customerPage = new CustomerPage(page)
-        await loginPage.goto("https://crm.anhtester.com/admin/authentication")
-        await loginPage.login("admin@example.com","123456")
-        await loginPage.verifyLoginSuccess()
-        await basePage.openCustomerPage()
+        await page.goto('https://crm.anhtester.com/admin/')
+        await customerPage.openCustomerPage()
     })
 
     test('Test create new customer success', async () => {
