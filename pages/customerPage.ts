@@ -61,7 +61,6 @@ export class CustomerPage extends BasePage {
         expect(url).toContain("admin/clients/client/")
         const alert = await this.page.locator("//span[@class='alert-title']").textContent()
         expect(alert).toBe(successMsg)
-        console.log(1)
     }
 
     async verifyRequiredCompanyError(successMsg: string) {
@@ -96,7 +95,7 @@ export class CustomerPage extends BasePage {
 
             // Verify nội dung popup
             expect(dialog.message()).toBe(
-            'Are you sure you want to perform this action?'
+                'Are you sure you want to perform this action?'
             );
 
             // Click OK
@@ -131,7 +130,7 @@ export class CustomerPage extends BasePage {
     }
 
     async editCustomer(newInfo: CustomerData) {
-        this.fillCustomerForm(newInfo)
+        await this.fillCustomerForm(newInfo)
         await this.click(this.saveButton)
     }
 

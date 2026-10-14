@@ -5,9 +5,6 @@ import { buildCustomerData, CustomerData } from '../data/customer/customer.data'
 
 export class EstimatesPage extends BasePage {
     readonly createEstimatesButton: Locator
-    readonly customterSelect: Locator
-    readonly customerSearchInput: Locator
-    readonly customerDropList: Locator
     readonly descriptionItem: Locator
     readonly quantityItem: Locator
     readonly rateItem: Locator
@@ -19,10 +16,6 @@ export class EstimatesPage extends BasePage {
 
         this.createEstimatesButton = this.page.getByRole('link', {name:'Create New Estimate'})
 
-        this.customterSelect = this.page.locator('button[data-id="clientid"]')
-        this.customerSearchInput = this.page.getByRole('combobox', {name: 'Search'})
-        this.customerDropList = this.page.locator('li')
-
         this.descriptionItem = this.page.getByPlaceholder("Description", { exact: true })
         this.quantityItem = this.page.getByPlaceholder("Quantity")
         this.rateItem = this.page.getByPlaceholder("Rate")
@@ -30,13 +23,6 @@ export class EstimatesPage extends BasePage {
         
         this.saveButton = this.page.getByRole('button', {name: 'Save'})
 
-    }
-
-    async selectCustomer(customerName: string) {
-        await this.customterSelect.click()
-        await this.customerSearchInput.pressSequentially(customerName)
-        await expect (this.customerDropList.filter({hasText: customerName})).toBeVisible()
-        await this.customerDropList.filter({hasText: customerName}).click()
     }
 
     async addItem(estimateItemData: EstimateItemData) {
